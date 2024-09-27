@@ -3,13 +3,14 @@ const app = express();
 const router = express.Router();
 const PORT = 3001;
 
-router.use(express.json());
+app.use(express.json());
 
-let flights = [];
+let flight = [];
 let currentId = 1; 
 
 
-router.post('/flights', (req, res) => {
+
+router.post('/flight', (req, res) => {
     const { airline, origin, destination, departureTime, arrivalTime } = req.body;
     const newFlight = {
         id: currentId++,
@@ -19,21 +20,21 @@ router.post('/flights', (req, res) => {
         departureTime,
         arrivalTime
     };
-    flights.push(newFlight);
+    flight.push(newFlight);
     res.status(201).json({ message: 'Flight added', flight: newFlight });
 });
 
 
 
-router.get('/flights', (req, res) => {
-    res.json(flights);
+router.get('/flight', (req, res) => {
+    res.json(flight);
 });
 
 
 
-router.get('/flights/:id', (req, res) => {
+router.get('/flight/:id', (req, res) => {
     const { id } = req.params;
-    const flight = flights.find(flight => flight.id === parseInt(id));
+    const flight = flight.find(flight => flight.id === parseInt(id));
     
     if (!flight) {
         return res.status(404).json({ message: 'Flight not found' });
@@ -43,11 +44,11 @@ router.get('/flights/:id', (req, res) => {
 });
 
 
-router.put('/flights/:id', (req, res) => {
+router.put('/flight/:id', (req, res) => {
     const { id } = req.params;
     const { airline, origin, destination, departureTime, arrivalTime } = req.body;
 
-    const flight = flights.find(flight => flight.id === parseInt(id));
+    const flight = flight.find(flight => flight.id === parseInt(id));
     
     if (!flight) {
         return res.status(404).json({ message: 'Flight not found' });
@@ -64,17 +65,17 @@ router.put('/flights/:id', (req, res) => {
 
 
 
-router.delete('/flights/:id', (req, res) => {
+router.delete('/flight/:id', (req, res) => {
     const { id } = req.params;
-    const flightIndex = flights.findIndex(flight => flight.id === parseInt(id));
+    const flightIndex = flight.findIndex(flight => flight.id === parseInt(id));
 
     if (flightIndex === -1) {
         return res.status(404).json({ message: 'Flight not found' });
     }
 
-    flights.splice(flightIndex, 1);
+    flight.splice(flightIndex, 1);
     res.json({ message: 'Flight deleted' });
 });
 
-module.exports = router
 
+module.exports = router

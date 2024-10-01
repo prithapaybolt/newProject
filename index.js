@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const flightRoutes = require('./routes/flight')
 const app = express();
 
+
 const PORT = 3001;
 
 app.use(bodyParser.json());
